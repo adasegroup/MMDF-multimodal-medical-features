@@ -15,13 +15,12 @@ Usually, patient’s data studied and stored separately. Meanwhile, a combinatio
 
 Make sure that you install all dependansies
 
-.. code-block::
-
      pip install -r requirements.txt
 
 **Documentation**
 
 [ECG features generation](https://github.com/adasegroup/MMDF-multimodal-medical-features/tree/master/ECG%20features/)
+
 [Text features generation](https://github.com/adasegroup/MMDF-multimodal-medical-features/tree/master/Text%20features/)
 
 **Main challenges**
