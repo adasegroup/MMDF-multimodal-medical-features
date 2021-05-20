@@ -11,7 +11,7 @@ def calculate_features(a):
     minimum = np.min(array, initial=0)
     std = np.std(array)
     median = np.median(array)
-    return np.array([mean, maximum, minimum, std, median])
+    return {'mean' : mean, 'max': maximum, 'min': minimum, 'std': std, 'meadian' : median}
 
 def p_peak_features(ecg_signal, waves):
     
@@ -59,7 +59,10 @@ def get_general_features(header):
     for iline in header:
         if iline.startswith('#Age'):
             tmp_age = iline.split(': ')[1].strip()
-            age = int(tmp_age if tmp_age != 'NaN' else None)
+            try:
+                age = int(tmp_age if tmp_age != 'NaN' else None)
+            except TypeError:
+                age = None
         elif iline.startswith('#Sex'):
             tmp_sex = iline.split(': ')[1]
             if tmp_sex.strip()=='Female':
@@ -70,13 +73,17 @@ def get_general_features(header):
 
 def generate_features(ecg, header):
     #input: 12-lead ecg and its header
-    num_leads = len(ecg)
     fs = 500
-    features = []
+    features = {}
     
-    for ecg_signal, ecg_info in zip(ecg, header[:13]):
+    lead_names = []
+    for iline in header:
+        if '.mat' in iline:
+            name = iline.split(' 0 ')[2].strip()
+            lead_names.append(name)
+    
+    for ecg_signal, lead in zip(ecg, lead_names):
         
-        features_for_single_lead = []
         ecg_cleaned = nk.ecg_clean(ecg_signal, sampling_rate = fs)
         
         if np.all((ecg_cleaned == 0)):
@@ -90,13 +97,13 @@ def generate_features(ecg, header):
                 try:                    
                     signal_dwt, waves_dwt = nk.ecg_delineate(ecg_cleaned, rpeaks['ECG_R_Peaks'], sampling_rate=fs, method="dwt")
                     biphase, areas, t_till_peaks, ampls, dur, idxs, pq_intervals = p_peak_features(ecg_cleaned, waves_dwt) 
-                    features_for_single_lead.append([calculate_features(pq_intervals), calculate_features(dur), 
-                                                     calculate_features(idxs),calculate_features(areas), calculate_features(ampls), 
-                                                     calculate_features(t_till_peaks), calculate_features(biphase)])                     
+                    features_for_single_lead = {'PQ_int' : calculate_features(pq_intervals), 'P_dur' : calculate_features(dur), 
+                                                'Area/Dur_P': calculate_features(idxs), 'Area_under_P' : calculate_features(areas), 
+                                                'P_amp' : calculate_features(ampls), 'Time_till_P' : calculate_features(t_till_peaks), 
+                                                'Biphase_P' : calculate_features(biphase)}                     
                 except IndexError:
                     return None
                 
-        age, sex = get_general_features(header)
-        features.append(np.array([features_for_single_lead, age, sex]))
+        features[lead] = features_for_single_lead
 
-    return np.array(features)
+    return features

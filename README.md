@@ -1,5 +1,5 @@
 ## The multimodal medical data preprocessing and classification framework
-
+----------------------
   
 This project is dedicated to creating an analytic tool for preprocessing and visualization of medical data of several modalities such as text medical records and electrocardiograms. The obtained framework will allow getting as input multi-modal data and handling it in a unified manner. The final goal is to provide feature engineering and explanatory data analysis tool for further identification of cardiac diseases by solving machine learning classification problem. 
 
@@ -10,6 +10,19 @@ Ischemic stroke is the most socially significant disease of the nervous system, 
 This project focuses on the discovery of additional predictors of cardioembolic stroke after or without AF manifestation. For this purpose, we intend to analyze the data extracted from the text descriptions of medical records (EHR) and from the time-series recordings of the electrocardiograms in twelve leads (ECG). We also aim to provide a visualisation tool to simplify the recommendation process for an expert. This will also help to identify a cohort of patients who would be prescribed anticoagulants to prevent stroke before the AF is confirmed and to develop personalized recommendations for screening patients at risk in the future. 
 
 Usually, patient’s data studied and stored separately. Meanwhile, a combination of several modalities may profit in terms of more accurate disease predictions. There is no standard workflow with multi-modal datasets, so our aim is to create the first framework that can use all insights from such data.   
+
+**Requirements**
+
+Make sure that you install all dependansies
+
+.. code-block::
+
+     pip install -r requirements.txt
+
+**Documentation**
+
+[ECG features generation](https://github.com/adasegroup/MMDF-multimodal-medical-features/tree/master/ECG%20features/)
+[Text features generation](https://github.com/adasegroup/MMDF-multimodal-medical-features/tree/master/Text%20features/)
 
 **Main challenges**
 
@@ -26,6 +39,8 @@ According to privacy regulations, the medical data requires several steps of ano
 However, there are statistical approaches (HAVOC, cha2ds2-vasc \[1, 2\]) addressing this task for a single EHR modality. In the case of EHR, the ability to compare different datasets is questionable because of possible medical and language biases. 
 
 ECG is a more unified and independent modality, so there are state-of-the-art models that solve AF classification problem \[3\]. The showed results are good enough, however, most of them are the black-box solutions. In order to be useful to doctors for interpretation of the results, preliminary feature engineering and analysis is required. There are existing libraries that segment physiological signals \[4\], including delineating ECG signals into peaks and segments. These frameworks may be improved by adding generation physiologically meaningful features which are characteristic of a particular disease.
+
+**Documentation**
 
 
   
