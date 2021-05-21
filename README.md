@@ -23,6 +23,8 @@ Make sure that you install all dependansies
 
 [Text features generation](https://github.com/adasegroup/MMDF-multimodal-medical-features/tree/master/Text%20features/)
 
+[Visualization](https://github.com/adasegroup/MMDF-multimodal-medical-features/tree/master/Visualization)
+
 **Main challenges**
 
 The data storage culture affected medical organisations later than many other organisations so there are only several years of recording available to process. And there hasn’t been any strict policies regarding the storage and quality of data. So that, there are a lot of problems with data quality such as cases of broken external keys, making data incompatible or decreasing the amount of data to work with; human-made mistakes which increase preprocessing time. 
