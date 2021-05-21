@@ -1,4 +1,4 @@
-The functionality of the visualization tool is presented at **extract_features.py** and **plotting.py modules**.
+The functionality of the visualization tool is presented at **extract_features.py** and **plotting.py** modules.
 
 Notebook **plotting.ipynb**:
 
