@@ -1,5 +1,7 @@
 The functionality of the visualization tool is presented at **extract_features.py** and **plotting.py** modules.
 
+The full function descriptions are in Visualization_tool_doc.pdf
+
 Notebook **plotting.ipynb**:
 
 Functions get_feature(), get_feature_heart split() split data into two set in accordance to presence\absence the heart disease and then extract certain feature values and plot histograms of positive/negative cases in accordance to it.
