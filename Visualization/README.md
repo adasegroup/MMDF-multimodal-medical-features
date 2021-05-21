@@ -1,6 +1,6 @@
 The functionality of the visualization tool is presented at **extract_features.py** and **plotting.py** modules.
 
-The full function descriptions are in Visualization_tool_doc.pdf
+The full function descriptions are in **Visualization_tool_doc.pdf**
 
 Notebook **plotting.ipynb**:
 
