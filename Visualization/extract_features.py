@@ -5,6 +5,8 @@ from numpy import loadtxt
 from xgboost import XGBClassifier
 from matplotlib import pyplot
 
+import matplotlib.pyplot as plt
+
 def get_feature(feature_name, df):
     pos = df[feature_name][df['fibrillation'] == 0].dropna()
     neg = table[feature_name][df['fibrillation'] == 1].dropna()
@@ -70,3 +72,36 @@ def feature_importance_by_xgb(table, feature_list, size_x = 30, size_y = 6):
     pyplot.rcParams["figure.figsize"] = (size_x, size_y) 
     pyplot.xticks(loc, labels, rotation=40, fontsize=11)
     pyplot.show()
+    
+def find_outliers(table, feature):
+    features = table[feature]
+    
+    labels = table['fibrillation']
+
+    mean = np.mean(features.dropna().values)
+    std = np.std(features.dropna().values)
+    
+    list_of_outliers = []
+    list_of_labels = []
+    list_of_positive = []
+    list_of_negative = []
+    for (ind, elem) in enumerate(features):
+        if (abs(elem - mean) > 3*std):
+            list_of_outliers.append(elem)
+            list_of_labels.append(labels[ind])
+            if (labels[ind] == True):
+                list_of_positive.append(elem)
+            elif (labels[ind] == False):
+                list_of_negative.append(elem)
+        
+    print ("Mean: ", mean, "Std: ", std, " number_of_objects: ", len(table), " number_of_outliers: ", len(list_of_outliers))
+
+
+    fig, (ax1, ax2) = plt.subplots(1, 2)
+    fig.suptitle('Data vs. outliers')
+    ax2.hist(list_of_outliers, bins = 50, alpha=0.7, label='Outliers')
+    ax1.hist(features.dropna().values, bins =50, alpha=0.7, label='Common data')
+    plt.legend()
+    plt.show()
+    
+    return list_of_outliers, list_of_labels, list_of_positive, list_of_negative
