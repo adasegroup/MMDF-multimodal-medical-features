@@ -13,6 +13,7 @@ import sys
 from .mistakes_handler import multiple_replace, final_dict_k
 sys.setrecursionlimit(999000)
 
+
 def Version():
     print('This version was updated 10.05.2021')
     print(final_dict_k.keys())
@@ -20,8 +21,6 @@ def Version():
 
 import re
 import string
-
-
 
 
 def thyroid_diag(diagnosis):
@@ -37,7 +36,8 @@ def thyroid_diag(diagnosis):
 
     try:
         diagnosis = diagnosis['Диагноз']
-    except:
+    except KeyError as err:
+        print("KeyError: {0} in Patient electronic record card".format(err))
         return False
 
     style = str.maketrans(dict.fromkeys(string.punctuation))
@@ -72,7 +72,8 @@ def thyroid_lab(lab_res):
 
     try:
         lab_res = lab_res['Данные лабораторных исследований']
-    except:
+    except KeyError as err:
+        print("KeyError: {0} in Patient electronic record card".format(err))
         return False
 
     match = re.search('(?:Т4|Т4 свободный|Т4 св|Т4 \(св\)|тироксин)[-\s:]+([0-9]*[.,]?[0-9]+)', \
@@ -109,6 +110,7 @@ def extract_thyroid(record):
 
     return thyroid_diag(record) or thyroid_lab(record)
 
+
 def extract_AH(record):
     if (not 'Диагноз' in record.keys()):
         return None
@@ -126,18 +128,17 @@ def extract_AH(record):
         return True
     return False
 
+
 # Works with df where a column has python dictionary
 class EMHRParser:
     def __init__(self, progress_bar=tqdm):
         self._progress_bar = progress_bar
-
 
     def _process_record(self, record):
         result = {}
         result['thyroid_1'] = extract_thyroid(record)
         result['hyp'] = extract_AH(record)
         return result
-    
 
     def __call__(self, records, n_jobs, lib):
         
